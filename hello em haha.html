@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>web của hack</title>
+    
+    <style>
+        /* Kịch bản đổi qua 4 màu */
+        @keyframes doiNhieuMau {
+            0% {
+                background-color:  yellow; /* 1. Vàng */
+            }
+            25% {
+                background-color:  red;    /* 2. Đỏ */
+            }
+            50% {
+                background-color: lightgreen;  /* 3. Xanh lá */
+            }
+            75% {
+                background-color:  light blue;   /* 4. Xanh dương */
+            }
+        }
+
+        body {
+            /* 4 màu x 2 giây = s cho 1 chu kỳ */
+            animation: doiNhieuMau 8s infinite;
+            color: black; /* Đổi màu chữ sang trắng cho dễ đọc */
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Chào mừng bạn đã bị lừa !</h1>
+    <p>you đang bị hack</p>
+    
+    <img src="https://picsum.photos/400/250" alt="Hình ảnh phong cảnh ngẫu nhiên" width="400">
+
+    <hr>
+
+    <a href="https://thuvienmeme.com/wp-content/uploads/2024/03/tron-tron-viet-nam.jpg" target="_blank">
+        <img src="./hello.png" alt="tron tron vn" width="200">
+    </a>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Rắn Săn Mồi HTML</title>
+    <style>
+        body {
+            background-color: #1e1e2e;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        canvas {
+            background-color: #000;
+            border: 3px solid #ff0055;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🐍 Game Rắn Săn Mồi HTML5</h1>
+    <p>Sử dụng các phím mũi tên <b>⬆️ ⬇️ ⬅️ ➡️</b> để điều khiển!</p>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const gridSize = 20;
+        const tileCount = canvas.width / gridSize;
+
+        let snake = [{ x: 10, y: 10 }];
+        let dx = 0;
+        let dy = 0;
+        let foodX = 15;
+        let foodY = 15;
+        let score = 0;
+
+        function drawGame() {
+            // Cập nhật vị trí rắn
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+            // Kiểm tra va chạm tường
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                resetGame();
+                return;
+            }
+
+            // Kiểm tra va chạm bản thân
+            for (let i = 0; i < snake.length; i++) {
+                if (head.x === snake[i].x && head.y === snake[i].y && (dx !== 0 || dy !== 0)) {
+                    resetGame();
+                    return;
+                }
+            }
+
+            snake.unshift(head);
+
+            // Ăn mồi
+            if (head.x === foodX && head.y === foodY) {
+                score += 10;
+                generateFood();
+            } else {
+                snake.pop();
+            }
+
+            // Vẽ màn hình
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Vẽ mồi
+            ctx.fillStyle = "#ff0055";
+            ctx.fillRect(foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+
+            // Vẽ rắn
+            ctx.fillStyle = "#00ff88";
+            for (let i = 0; i < snake.length; i++) {
+                ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
+            }
+
+            // Vẽ điểm
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "16px Arial";
+            ctx.fillText("Điểm: " + score, 10, 25);
+        }
+
+        function generateFood() {
+            foodX = Math.floor(Math.random() * tileCount);
+            foodY = Math.floor(Math.random() * tileCount);
+        }
+
+        function resetGame() {
+            alert("Game Over! Điểm của bạn: " + score);
+            snake = [{ x: 10, y: 10 }];
+            dx = 0;
+            dy = 0;
+            score = 0;
+            generateFood();
+        }
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -1; }
+            if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 1; }
+            if (e.key === "ArrowLeft" && dx === 0) { dx = -1; dy = 0; }
+            if (e.key === "ArrowRight" && dx === 0) { dx = 1; dy = 0; }
+        });
+
+        setInterval(drawGame, 100);
+    </script>
+
+</body>
+</html>
